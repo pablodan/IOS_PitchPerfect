@@ -11,11 +11,7 @@ import AVFoundation
 
 class RecordSoundViewController: UIViewController, AVAudioRecorderDelegate {
     
-    @IBOutlet weak var test: UIButton!
-    
-    
-    
-    
+
     @IBOutlet weak var recordLabel: UILabel!
     
     @IBOutlet weak var recordButton: UIButton!
@@ -29,9 +25,7 @@ class RecordSoundViewController: UIViewController, AVAudioRecorderDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
       
-        //disable stop recording button
-        //stopRecordingButton.isEnabled = false
-        //stopRecordingButton.isUserInteractionEnabled = true
+        //disable stop recording button and update label
         updateRecUi(isRecording: false, recordTxt: "Tap to record")
     }
     
@@ -39,9 +33,6 @@ class RecordSoundViewController: UIViewController, AVAudioRecorderDelegate {
     
     @IBAction func recordAudio(_ sender: Any)
     {
-        //stopRecordingButton.isEnabled = true
-        //recordButton.isEnabled = false
-        
         updateRecUi(isRecording: true, recordTxt: "Recording")
         
         //************Record Audio****************
@@ -63,12 +54,10 @@ class RecordSoundViewController: UIViewController, AVAudioRecorderDelegate {
     
 
     @IBAction func stopRecording(_ sender: Any) {
-        //print("Stop recording..")
+        
         recordButton.isEnabled = true
         stopRecordingButton.isEnabled = false
-        //recordLabel.text = "Tap to Record.."\
-       
-        
+
         audioRecorder.stop()
         let audioSession = AVAudioSession.sharedInstance()
         try! audioSession.setActive(false)
@@ -77,7 +66,6 @@ class RecordSoundViewController: UIViewController, AVAudioRecorderDelegate {
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
        
-        //print("finished recording! ")
         if flag {
            performSegue(withIdentifier: "stopRecordingSeg", sender: audioRecorder.url)
         }
@@ -86,34 +74,27 @@ class RecordSoundViewController: UIViewController, AVAudioRecorderDelegate {
             
             present(errDialog, animated: true
                 , completion: nil)
-             //print("recording was not successful!")
+            
         }
     }
     
     //update ui on record view
     func updateRecUi(isRecording: Bool, recordTxt: String){
         
-        //var recordTxt = recordTxt
         if isRecording == true {
             
             stopRecordingButton.isEnabled = true
             recordButton.isEnabled = false
             recordLabel.text = recordTxt
          
-
-          
         }
         else if isRecording == false {
             stopRecordingButton.isEnabled = false
             recordButton.isEnabled = true
             recordLabel.text = recordTxt
-            
-           
-            
+  
         }
        
-        
-        //stopRecordingButton.isEnabled = false
     
     }
     
