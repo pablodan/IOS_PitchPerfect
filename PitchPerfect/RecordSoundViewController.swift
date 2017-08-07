@@ -18,6 +18,9 @@ class RecordSoundViewController: UIViewController, AVAudioRecorderDelegate {
     
     @IBOutlet weak var stopRecordingButton: UIButton!
     
+    let stopMsg = "Tap to record"
+    let playMsg  = "Recording"
+    
     //create instance of AVAudioRecorder
     var audioRecorder: AVAudioRecorder!
   
@@ -26,14 +29,14 @@ class RecordSoundViewController: UIViewController, AVAudioRecorderDelegate {
         super.viewDidLoad()
       
         //disable stop recording button and update label
-        updateRecUi(isRecording: false, recordTxt: "Tap to record")
+        updateRecUi(isRecording: false, recordTxt: stopMsg)
     }
     
 
     
     @IBAction func recordAudio(_ sender: Any)
     {
-        updateRecUi(isRecording: true, recordTxt: "Recording")
+        updateRecUi(isRecording: true, recordTxt: playMsg)
         
         //************Record Audio****************
         let dirPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0] as String
@@ -55,8 +58,9 @@ class RecordSoundViewController: UIViewController, AVAudioRecorderDelegate {
 
     @IBAction func stopRecording(_ sender: Any) {
         
-        recordButton.isEnabled = true
-        stopRecordingButton.isEnabled = false
+        //recordButton.isEnabled = true
+       // stopRecordingButton.isEnabled = false
+        updateRecUi(isRecording: false, recordTxt: stopMsg)
 
         audioRecorder.stop()
         let audioSession = AVAudioSession.sharedInstance()
